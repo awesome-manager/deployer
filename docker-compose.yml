@@ -13,6 +13,39 @@ services:
       - ${PUB_HTTPS_PORT}:443
     volumes:
       - ./docker/nginx/ssl:/etc/nginx/ssl
+  psql:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgress
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      manager:
+        aliases:
+          - psql
+          - database
+  team-data:
+    build:
+      context: ${WORKDIR}/team-data
+      dockerfile: ./docker/Dockerfile
+      args:
+        build_env: devel
+    networks:
+      manager:
+        aliases:
+          - team-data
+          - team-service
+    environment:
+      XDEBUG_PORT: 9000
+      XDEBUG_HOST: 127.0.0.1
+      XDEBUG_IDKEY: DEFKEY
+    volumes:
+      - ${WORKDIR}/team-data:/var/www
 
 networks:
   manager:
