@@ -25,6 +25,9 @@ prepare-certs: ## prepare-certs
 prepare-nginx: ## Prepare nginx container
 	docker-compose -p ${PROJECT_NAME} -f docker-compose.yml up -d --no-deps --build  nginx
 
+prepare-gateway: ## prepare api-gateway container
+	@docker-compose -p ${PROJECT_NAME} -f docker-compose.yml up -d --no-deps --build api-gateway
+
 run: ## run project
 	@docker-compose -p ${PROJECT_NAME} -f docker-compose.yml up -d
 

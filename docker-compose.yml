@@ -29,6 +29,17 @@ services:
         aliases:
           - psql
           - database
+  api-gateway:
+    build:
+      context: ${WORKDIR}/api-gateway
+      dockerfile: ./Dockerfile
+      args:
+        build_env: devel
+    networks:
+      manager:
+        aliases:
+          - api-gateway
+          - gateway
   team-data:
     build:
       context: ${WORKDIR}/team-data
@@ -46,6 +57,38 @@ services:
       XDEBUG_IDKEY: DEFKEY
     volumes:
       - ${WORKDIR}/team-data:/var/www
+  site-data:
+    build:
+      context: ${WORKDIR}/site-data
+      dockerfile: ./docker/Dockerfile
+      args:
+        build_env: devel
+    networks:
+      manager:
+        aliases:
+          - site-data
+          - site-service
+    environment:
+      XDEBUG_PORT: 9000
+      XDEBUG_HOST: 127.0.0.1
+      XDEBUG_IDKEY: DEFKEY
+    volumes:
+      - ${WORKDIR}/site-data:/var/www
+#  manager-front:
+#    build:
+#      context: ${WORKDIR}/manager-front
+#      dockerfile: ./docker/Dockerfile
+#      args:
+#        build_env: devel
+#    networks:
+#      default:
+#        aliases:
+#          - manager-front
+#    entrypoint: sh -c "yarn global add pm2 env-cmd && env-cmd -e developer yarn serve"
+#    environment:
+#      PORT: "3000"
+#    volumes:
+#      - ${WORKDIR}/manager-front:/var/www
 
 networks:
   manager:
