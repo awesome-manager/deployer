@@ -57,6 +57,23 @@ services:
       XDEBUG_IDKEY: DEFKEY
     volumes:
       - ${WORKDIR}/team-data:/var/www
+  project-data:
+    build:
+      context: ${WORKDIR}/project-data
+      dockerfile: ./docker/Dockerfile
+      args:
+        build_env: devel
+    networks:
+      manager:
+        aliases:
+          - project-data
+          - project-service
+    environment:
+      XDEBUG_PORT: 9000
+      XDEBUG_HOST: 127.0.0.1
+      XDEBUG_IDKEY: DEFKEY
+    volumes:
+      - ${WORKDIR}/project-data:/var/www
   site-data:
     build:
       context: ${WORKDIR}/site-data
