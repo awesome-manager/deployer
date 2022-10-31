@@ -29,6 +29,22 @@ services:
         aliases:
           - psql
           - database
+  psql-test:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgress
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/test-data
+    ports:
+      - 5433:5432
+    networks:
+      manager:
+        aliases:
+          - psql-test
+          - database-test
   api-gateway:
     build:
       context: ${WORKDIR}/api-gateway
