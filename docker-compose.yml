@@ -107,6 +107,23 @@ services:
       XDEBUG_IDKEY: DEFKEY
     volumes:
       - ${WORKDIR}/site-data:/var/www
+  idm-data:
+    build:
+      context: ${WORKDIR}/idm-data
+      dockerfile: ./docker/Dockerfile
+      args:
+        build_env: devel
+    networks:
+      manager:
+        aliases:
+          - idm-data
+          - idm-service
+    environment:
+      XDEBUG_PORT: 9000
+      XDEBUG_HOST: 127.0.0.1
+      XDEBUG_IDKEY: DEFKEY
+    volumes:
+      - ${WORKDIR}/idm-data:/var/www
 #  manager-front:
 #    build:
 #      context: ${WORKDIR}/manager-front
