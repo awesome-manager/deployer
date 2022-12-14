@@ -33,3 +33,9 @@ run: ## run project
 
 stop: ## stop projects
 	@docker-compose -p ${PROJECT_NAME} -f docker-compose.yml stop
+
+run-swagger-api: ## run swagger mock api
+	@docker-compose -p ${PROJECT_NAME} -f docker-compose.swagger.yml up -d swagger
+
+stop-swagger-api: ## stop swagger mock api
+	@docker-compose -p ${PROJECT_NAME} -f docker-compose.swagger.yml stop swagger
