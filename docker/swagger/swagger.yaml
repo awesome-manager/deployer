@@ -1,0 +1,29 @@
+openapi: 3.0.1
+info:
+  title: Manager API
+  description: Awesome manager API routes
+  version: 1.0.0
+servers:
+  - url: http://gateway:8000/api/v1/
+paths:
+  /projects:
+    get:
+      summary: Get list of projects
+      tags:
+        - Project
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: ''
+components:
+  schemas:
+    Projects:
+      type: object
+      example:
+tags:
+  - name: Auth
+    description: Authentication/Authorization
+  - name: Project
+    description: Project API
