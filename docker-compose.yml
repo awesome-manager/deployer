@@ -23,7 +23,7 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - '5432:5432'
     networks:
       manager:
         aliases:
@@ -39,12 +39,27 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/test-data
     ports:
-      - 5433:5432
+      - '5433:5432'
     networks:
       manager:
         aliases:
           - psql-test
           - database-test
+  minio:
+    image: minio/minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - ./miniodata:/data
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=qwerty123
+    command: server --console-address ":9001" /data
+    networks:
+      manager:
+        aliases:
+          - minio
   api-gateway:
     build:
       context: ${WORKDIR}/api-gateway
